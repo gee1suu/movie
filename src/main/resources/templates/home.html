@@ -58,7 +58,7 @@
                         <div class="card-body">
                             <h5 class="card-title">
                                 <b><span th:text="${num}"></span>.</b>
-                                <a href="#">영화 제목</a>
+                                <a th:href="@{movieDetail(id=${num})}">영화 제목</a>
                             </h5>
                             <p class="card-text">
                                 예매율: 50.5%<br>
@@ -80,7 +80,7 @@
                         <div class="card-body">
                             <h5 class="card-title">
                                 <b><span th:text="${num}"></span>.</b>
-                                <a href="#">영화 제목</a>
+                                <a th:href="@{movieDetail(id=${num})}">영화 제목</a>
                             </h5>
                             <p class="card-text">
                                 예매율: 50.5%<br>
