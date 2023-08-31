@@ -44,8 +44,27 @@
         </tr>
     </table>
     <div style="text-align: end;">
-        <button type="button" class="btn btn-light">비밀번호 변경</button>
-        <button type="button" class="btn btn-danger">탈퇴하기</button>
+        <button type="button" class="btn btn-light" onclick="location.href='/reset-pw'">비밀번호 변경</button>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">탈퇴하기</button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">탈퇴하기</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    정말로 탈퇴하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-danger">탈퇴</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- 예매내역 -->
@@ -75,7 +94,7 @@
             <td>계좌이체</td>
             <td class="text-end">
                 <div class="btn-group btn-group-sm">
-                    <button class="btn btn-primary">평점등록</button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#insertScore">평점등록</button>
                 </div>
             </td>
         </tr>
@@ -123,7 +142,7 @@
             <td>4.5</td>
             <td class="text-end">
                 <div class="btn-group btn-group-sm">
-                    <button class="btn btn-success">수정</button>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateScore">수정</button>
                     <button class="btn btn-warning">삭제</button>
                 </div>
             </td>
@@ -150,6 +169,42 @@
         </tr>
         </tbody>
     </table>
+    <div class="modal fade" id="updateScore" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateScoreLabel">평점 수정</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>수정할 평점을 입력하세요.</div>
+                    <input type="number" step="0.1" value="4.5" placeholder="평점 입력(0.0 ~ 10.0)" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-success">수정</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="insertScore" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="insertScoreLabel">평점 등록</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>등록할 평점을 입력하세요.</div>
+                    <input type="number" step="0.1" placeholder="평점 입력(0.0 ~ 10.0)" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary">등록</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
