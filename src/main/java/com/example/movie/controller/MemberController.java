@@ -2,6 +2,7 @@ package com.example.movie.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class MemberController {
@@ -28,5 +29,10 @@ public class MemberController {
     @GetMapping("/reset-pw")
     public String resetPwForm() {
         return "member/resetPw";
+    }
+
+    @RequestMapping("/mypage")
+    public String mypage() {
+        return "member/mypage";
     }
 }
