@@ -1,7 +1,9 @@
 package com.example.movie.controller;
 
 import com.example.movie.domain.Member;
+import com.example.movie.dto.EmailPostDto;
 import com.example.movie.dto.MemberForm;
+import com.example.movie.dto.ResetPwForm;
 import com.example.movie.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
@@ -55,17 +58,32 @@ public class MemberController {
     }
 
     @GetMapping("/find-pw1")
-    public String findPw1Form() {
+    public String findPw1Form(Model model) {
+        model.addAttribute("emailPostDto", new EmailPostDto());
         return "member/findPw_1";
     }
 
-    @GetMapping("/find-pw2")
-    public String findPw2Form() {
-        return "member/findPw_2";
+    @PostMapping("/find-pw2")
+    public String findPw2(String email, Model model) {
+        model.addAttribute("resetPwForm", new ResetPwForm());
+        model.addAttribute("email", email);
+        return "member/resetPw";
     }
 
-    @GetMapping("/reset-pw")
-    public String resetPwForm() {
+    @PostMapping("/reset-pw")
+    public String resetPw(@Valid ResetPwForm form, BindingResult result) {
+        if(result.hasErrors()) {
+            return "member/resetPw";
+        }
+        Member member = Member.createUser(form, passwordEncoder);
+        memberService.changePassword(member);
+        return "redirect:/";
+    }
+
+    @PostMapping("/change-pw")
+    public String chagngePw(Principal principal, Model model) {
+        model.addAttribute("resetPwForm", new ResetPwForm());
+        model.addAttribute("email", principal.getName());
         return "member/resetPw";
     }
 

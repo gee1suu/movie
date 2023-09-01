@@ -1,6 +1,7 @@
 package com.example.movie.domain;
 
 import com.example.movie.dto.MemberForm;
+import com.example.movie.dto.ResetPwForm;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,6 +44,16 @@ public class Member {
         member.setRole(Role.GEN);
 
         String password = passwordEncoder.encode(memberForm.getPassword());
+        member.setPassword(password);
+
+        return member;
+    }
+
+    public static Member createUser(ResetPwForm resetPwForm, PasswordEncoder passwordEncoder) {
+        Member member = new Member();
+
+        member.setEmail(resetPwForm.getEmail());
+        String password = passwordEncoder.encode(resetPwForm.getPassword());
         member.setPassword(password);
 
         return member;

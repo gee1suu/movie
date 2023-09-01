@@ -44,7 +44,10 @@
         </tr>
     </table>
     <div style="text-align: end;">
-        <button type="button" class="btn btn-light" onclick="location.href='/reset-pw'">비밀번호 변경</button>
+        <form action="/change-pw" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button type="submit" class="btn btn-light">비밀번호 변경</button>
+        </form>
         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">탈퇴하기</button>
     </div>
 

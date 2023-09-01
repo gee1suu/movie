@@ -9,12 +9,12 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script th:inline="javascript">
-    document.addEventListener("DOMContentLoaded", () => {
+    window.load = function () {
       let errorMesage = [[${errorMessage}]];
       if(errorMesage != null) {
         swal('회원가입 실패!', errorMesage, 'error');
       }
-    })
+    }
   </script>
   <style>
     p {

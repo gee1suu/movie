@@ -45,4 +45,9 @@ public class MemberService implements UserDetailsService {
                 .roles(member.getRole().toString())
                 .build();
     }
+
+    public void changePassword(Member member) {
+        List<Member> findMember = memberRepository.findByEmail(member.getEmail());
+        findMember.get(0).setPassword(member.getPassword());
+    }
 }
