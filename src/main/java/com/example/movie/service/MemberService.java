@@ -1,6 +1,7 @@
 package com.example.movie.service;
 
 import com.example.movie.domain.Member;
+import com.example.movie.dto.MemberInfoForm;
 import com.example.movie.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
@@ -49,5 +50,19 @@ public class MemberService implements UserDetailsService {
     public void changePassword(Member member) {
         List<Member> findMember = memberRepository.findByEmail(member.getEmail());
         findMember.get(0).setPassword(member.getPassword());
+    }
+
+    public void cancelAccount(String email) {
+        Member findMember = memberRepository.findByEmail(email).get(0);
+        memberRepository.delete(findMember);
+    }
+
+    public MemberInfoForm showMemberInfo(String email) {
+        Member findMember = memberRepository.findByEmail(email).get(0);
+        MemberInfoForm memberInfoForm = new MemberInfoForm();
+        memberInfoForm.setEmail(findMember.getEmail());
+        memberInfoForm.setName(findMember.getName());
+        memberInfoForm.setRole(findMember.getRole());
+        return memberInfoForm;
     }
 }

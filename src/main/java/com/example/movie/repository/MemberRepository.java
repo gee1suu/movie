@@ -24,4 +24,8 @@ public class MemberRepository {
                 .setParameter("email", email)
                 .getResultList();
     }
+
+    public void delete(Member member) {
+        em.remove(member);
+    }
 }

@@ -3,6 +3,7 @@ package com.example.movie.controller;
 import com.example.movie.domain.Member;
 import com.example.movie.dto.EmailPostDto;
 import com.example.movie.dto.MemberForm;
+import com.example.movie.dto.MemberInfoForm;
 import com.example.movie.dto.ResetPwForm;
 import com.example.movie.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -88,7 +89,25 @@ public class MemberController {
     }
 
     @RequestMapping("/mypage")
-    public String mypage() {
+    public String mypage(Principal principal, Model model) {
+        MemberInfoForm memberInfoForm = memberService.showMemberInfo(principal.getName());
+        model.addAttribute("memberInfoForm", memberInfoForm);
         return "member/mypage";
+    }
+
+    @RequestMapping("/myticket")
+    public String myticket() {
+        return "member/myticket";
+    }
+
+    @RequestMapping("/myscore")
+    public String myscore() {
+        return "member/myscore";
+    }
+
+    @GetMapping("/cancel")
+    public String cancel(Principal principal) {
+        memberService.cancelAccount(principal.getName());
+        return "redirect:/logout";
     }
 }
