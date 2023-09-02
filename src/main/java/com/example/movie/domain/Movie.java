@@ -32,4 +32,5 @@ public class Movie {
     private String director; // 감독
     private float avgGrade; // 평균평점
     private float bookingRate; // 예매율
+    private String poster; // 포스터
 }

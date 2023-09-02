@@ -1,6 +1,8 @@
 package com.example.movie.controller;
 
 import com.example.movie.domain.Member;
+import com.example.movie.domain.Score;
+import com.example.movie.domain.Ticket;
 import com.example.movie.dto.EmailPostDto;
 import com.example.movie.dto.MemberForm;
 import com.example.movie.dto.MemberInfoForm;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -90,18 +93,22 @@ public class MemberController {
 
     @RequestMapping("/mypage")
     public String mypage(Principal principal, Model model) {
-        MemberInfoForm memberInfoForm = memberService.showMemberInfo(principal.getName());
+        MemberInfoForm memberInfoForm = memberService.loadMemberInfo(principal.getName());
         model.addAttribute("memberInfoForm", memberInfoForm);
         return "member/mypage";
     }
 
     @RequestMapping("/myticket")
-    public String myticket() {
+    public String myticket(Principal principal, Model model) {
+        List<Ticket> ticketList = memberService.loadMyticket(principal.getName());
+        model.addAttribute("ticketList", ticketList);
         return "member/myticket";
     }
 
     @RequestMapping("/myscore")
-    public String myscore() {
+    public String myscore(Principal principal, Model model) {
+        List<Score> scoreList = memberService.loadMyscore(principal.getName());
+        model.addAttribute("scoreList", scoreList);
         return "member/myscore";
     }
 

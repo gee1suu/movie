@@ -12,6 +12,7 @@
             border: none;
             border-radius: 0;
             box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+            width: 16rem;
         }
         .carousel-inner {
             padding: 1em;
@@ -29,13 +30,19 @@
             justify-content: center;
         }
         .image-wrapper img {
-            width: 14rem;
-            height: 20rem;
+            width: 16rem;
+            height: 23rem;
             object-fit: cover;
         }
         .btn-wrapper {
             width: 50%;
             margin: 0 auto;
+            text-align: center;
+        }
+        .movieTitle {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     </style>
 </head>
@@ -51,18 +58,20 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <div class="cards-wrapper">
-                    <div class="card" th:each="num : ${#numbers.sequence(1,5)}">
+                    <div class="card" th:each="movie, movieStat : ${movieChart1}">
                         <div class="image-wrapper">
-                            <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87175/87175_1000.jpg" alt="...">
+                            <img th:src="${movie.getPoster()}" alt="포스터">
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">
-                                <b><span th:text="${num}"></span>.</b>
-                                <a th:href="@{movieDetail(id=${num})}">영화 제목</a>
+                            <h5 class="card-title movieTitle">
+                                <b><span th:text="${movieStat.count}"></span>.</b>
+                                <a th:href="@{movieDetail(id=${movie.getId()})}">
+                                    <span th:text="${movie.getName()}">영화 제목</span>
+                                </a>
                             </h5>
                             <p class="card-text">
-                                예매율: 50.5%<br>
-                                별점: 8.4
+                                예매율: <span th:text="${movie.getBookingRate()}"></span>%<br>
+                                별점: <span th:text="${movie.getAvgGrade()}"></span>
                             </p>
                             <div class="btn-wrapper">
                                 <a href="/select-schedule" class="btn btn-primary">예매하기</a>
@@ -73,18 +82,20 @@
             </div>
             <div class="carousel-item">
                 <div class="cards-wrapper">
-                    <div class="card" th:each="num : ${#numbers.sequence(6,10)}">
+                    <div class="card" th:each="movie, movieStat : ${movieChart2}">
                         <div class="image-wrapper">
-                            <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87237/87237_1000.jpg" alt="...">
+                            <img th:src="${movie.getPoster()}" alt="포스터">
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">
-                                <b><span th:text="${num}"></span>.</b>
-                                <a th:href="@{movieDetail(id=${num})}">영화 제목</a>
+                            <h5 class="card-title movieTitle">
+                                <b><span th:text="${movieStat.count + 5}"></span>.</b>
+                                <a th:href="@{movieDetail(id=${movie.getId()})}">
+                                    <span th:text="${movie.getName()}">영화 제목</span>
+                                </a>
                             </h5>
                             <p class="card-text">
-                                예매율: 50.5%<br>
-                                별점: 8.4
+                                예매율: <span th:text="${movie.getBookingRate()}"></span>%<br>
+                                별점: <span th:text="${movie.getAvgGrade()}"></span>
                             </p>
                             <div class="btn-wrapper">
                                 <a href="/select-schedule" class="btn btn-primary">예매하기</a>
