@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+
+  <div th:fragment="movieListHeader">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link" id="currentMovies" href="/movieList-1">현재 상영작</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="futureMovies" href="/movieList-2">상영 예정작</a>
+      </li>
+    </ul>
+  </div>
+</html>

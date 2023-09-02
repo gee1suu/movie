@@ -1,7 +1,6 @@
 package com.example.movie.controller;
 
 import com.example.movie.domain.Member;
-import com.example.movie.domain.Score;
 import com.example.movie.domain.Ticket;
 import com.example.movie.dto.EmailPostDto;
 import com.example.movie.dto.MemberForm;
@@ -103,13 +102,6 @@ public class MemberController {
         List<Ticket> ticketList = memberService.loadMyticket(principal.getName());
         model.addAttribute("ticketList", ticketList);
         return "member/myticket";
-    }
-
-    @RequestMapping("/myscore")
-    public String myscore(Principal principal, Model model) {
-        List<Score> scoreList = memberService.loadMyscore(principal.getName());
-        model.addAttribute("scoreList", scoreList);
-        return "member/myscore";
     }
 
     @GetMapping("/cancel")

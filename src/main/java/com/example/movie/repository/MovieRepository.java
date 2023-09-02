@@ -1,6 +1,5 @@
 package com.example.movie.repository;
 
-import com.example.movie.domain.Member;
 import com.example.movie.domain.Movie;
 import org.springframework.stereotype.Repository;
 
@@ -29,6 +28,16 @@ public class MovieRepository {
                         "select m from Movie m where m.id = :id ",
                         Movie.class)
                 .setParameter("id", id)
+                .getResultList();
+    }
+
+    public List<Movie> loadFutureMovies() {
+        Date now = new Date();
+        return em.createQuery(
+                        "select m from Movie m where m.openDate > :now" +
+                                " order by m.openDate",
+                        Movie.class)
+                .setParameter("now", now)
                 .getResultList();
     }
 }

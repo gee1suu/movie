@@ -1,7 +1,6 @@
 package com.example.movie.repository;
 
 import com.example.movie.domain.Member;
-import com.example.movie.domain.Score;
 import com.example.movie.domain.Ticket;
 import org.springframework.stereotype.Repository;
 
@@ -29,14 +28,6 @@ public class MemberRepository {
 
     public void delete(Member member) {
         em.remove(member);
-    }
-
-    public List<Score> findScoreById(Long id) {
-        return em.createQuery(
-                        "select s from Score s where s.memberId = :id ",
-                        Score.class)
-                .setParameter("id", id)
-                .getResultList();
     }
 
     public List<Ticket> findTicketById(Long id) {

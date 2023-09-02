@@ -1,6 +1,7 @@
 package com.example.movie.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
         sequenceName = "seq_score_id",
         allocationSize = 1)
 @Getter
+@Setter
 public class Score {
     @Id @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
@@ -25,5 +27,5 @@ public class Score {
     @JoinColumn(name = "member_id", referencedColumnName = "member_id")
     private Member memberId; // 고객코드
 
-    private int score; // 평점
+    private float score; // 평점
 }

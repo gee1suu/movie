@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>영화</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .card{
+            margin: 0 .5em;
+            border: none;
+            border-radius: 0;
+            box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+        }
+        .cards-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+        .image-wrapper img {
+            width: 100%;
+            object-fit: cover;
+        }
+        .btn-wrapper {
+            width: 50%;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .ellipsisText {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<th:block th:replace="fragments/header :: header"></th:block>
+<body>
+<div class="container-fluid mt-3">
+    <th:block th:replace="fragments/movieListHeader :: movieListHeader"></th:block>
+    <!-- 상영 예정작 -->
+    <div class="cards-wrapper mt-3 mb-3 row">
+        <div class="card col-2 m-3" th:each="movie, movieStat : ${movieList}">
+            <div class="image-wrapper">
+                <img th:src="${movie.getPoster()}" alt="포스터">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title ellipsisText">
+                    <b><span th:text="${movieStat.count}"></span>.</b>
+                    <a th:href="@{movieDetail(id=${movie.getId()})}">
+                        <span th:text="${movie.getName()}"></span>
+                    </a>
+                </h5>
+                <p class="card-text ellipsisText">
+                    <span>개봉일:</span>
+                    <span th:text="${#strings.substring(movie.getOpenDate(), 0, 10)}"></span>
+                </p>
+                <div class="btn-wrapper ellipsisText" style="color: red; border: 1px solid red">
+                    <span>D -</span>
+                    <span th:text="${movie.getDDay()}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+    window.onload = () => {
+        document.getElementById('futureMovies').className += ' active';
+    }
+</script>
+</html>
+
+

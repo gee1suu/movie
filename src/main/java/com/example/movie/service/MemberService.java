@@ -1,7 +1,6 @@
 package com.example.movie.service;
 
 import com.example.movie.domain.Member;
-import com.example.movie.domain.Score;
 import com.example.movie.domain.Ticket;
 import com.example.movie.dto.MemberInfoForm;
 import com.example.movie.repository.MemberRepository;
@@ -66,11 +65,6 @@ public class MemberService implements UserDetailsService {
         memberInfoForm.setName(findMember.getName());
         memberInfoForm.setRole(findMember.getRole());
         return memberInfoForm;
-    }
-
-    public List<Score> loadMyscore(String email) {
-        Member findMember = memberRepository.findByEmail(email).get(0);
-        return memberRepository.findScoreById(findMember.getId());
     }
 
     public List<Ticket> loadMyticket(String email) {
