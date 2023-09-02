@@ -31,4 +31,12 @@ public class ScoreRepository {
     public void delete(Score score) {
         em.remove(score);
     }
+
+    public List<Score> findScoreByMovieId(Long id) {
+        return em.createQuery(
+                        "select s from Score s where s.movieId.id = :id ",
+                        Score.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
 }

@@ -1,7 +1,6 @@
 package com.example.movie.repository;
 
 import com.example.movie.domain.Member;
-import com.example.movie.domain.Ticket;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -28,13 +27,5 @@ public class MemberRepository {
 
     public void delete(Member member) {
         em.remove(member);
-    }
-
-    public List<Ticket> findTicketById(Long id) {
-        return em.createQuery(
-                        "select t from Ticket t where t.memberId = :id ",
-                        Ticket.class)
-                .setParameter("id", id)
-                .getResultList();
     }
 }

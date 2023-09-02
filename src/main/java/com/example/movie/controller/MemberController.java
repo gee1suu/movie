@@ -1,7 +1,6 @@
 package com.example.movie.controller;
 
 import com.example.movie.domain.Member;
-import com.example.movie.domain.Ticket;
 import com.example.movie.dto.EmailPostDto;
 import com.example.movie.dto.MemberForm;
 import com.example.movie.dto.MemberInfoForm;
@@ -95,13 +94,6 @@ public class MemberController {
         MemberInfoForm memberInfoForm = memberService.loadMemberInfo(principal.getName());
         model.addAttribute("memberInfoForm", memberInfoForm);
         return "member/mypage";
-    }
-
-    @RequestMapping("/myticket")
-    public String myticket(Principal principal, Model model) {
-        List<Ticket> ticketList = memberService.loadMyticket(principal.getName());
-        model.addAttribute("ticketList", ticketList);
-        return "member/myticket";
     }
 
     @GetMapping("/cancel")

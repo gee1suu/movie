@@ -17,7 +17,12 @@ public class MovieController {
     private final MovieService movieService;
 
     @RequestMapping("/movieList-1")
-    public String movieList_1() {
+    public String movieList_1(int order, Model model) {
+        if(order == 0) {
+            model.addAttribute("movieList", movieService.loadCurrentMoviesOrderByBooking());
+        } else {
+            model.addAttribute("movieList", movieService.loadCurrentMoviesOrderByScore());
+        }
         return "movie/movieList_1";
     }
 

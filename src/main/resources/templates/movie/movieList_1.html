@@ -42,25 +42,27 @@
     <th:block th:replace="fragments/movieListHeader :: movieListHeader"></th:block>
     <!-- 현재 상영작만 select -->
     <div class="mt-3">
-        <select class="form-select" id="movieOrder" name="movieOrder">
-            <option>예매율순</option>
-            <option>별점 많은순</option>
+        <select class="form-select" id="order" name="order" onchange="location.href='/movieList-1?order=' + (this.value)">
+            <option value="0">예매율순</option>
+            <option value="1">별점 많은순</option>
         </select>
     </div>
     <!-- 현재 상영작 -->
     <div class="cards-wrapper mt-3 mb-3 row">
-        <div class="card col-2 m-3" th:each="num : ${#numbers.sequence(1,8)}">
+        <div class="card col-2 m-3" th:each="movie, movieStat : ${movieList}">
             <div class="image-wrapper">
-                <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87175/87175_1000.jpg" alt="...">
+                <img th:src="${movie.getPoster()}" alt="포스터">
             </div>
             <div class="card-body">
                 <h5 class="card-title ellipsisText">
-                    <b><span th:text="${num}"></span>.</b>
-                    <a th:href="@{movieDetail(id=${num})}">영화 제목</a>
+                    <b><span th:text="${movieStat.count}"></span>.</b>
+                    <a th:href="@{movieDetail(id=${movie.getId()})}">
+                        <span th:text="${movie.getName()}"></span>
+                    </a>
                 </h5>
                 <p class="card-text ellipsisText">
-                    예매율: 50.5%<br>
-                    별점: 8.4
+                    예매율: <span th:text="${movie.getBookingRate()}"></span> %<br>
+                    별점: <span th:text="${movie.getAvgGrade()}"></span>
                 </p>
                 <div class="btn-wrapper ellipsisText">
                     <a href="/select-schedule" class="btn btn-primary">예매하기</a>
@@ -74,6 +76,9 @@
 <script>
     window.onload = () => {
         document.getElementById('currentMovies').className += ' active';
+        const urlParams = new URL(location.href).searchParams;
+        const order = urlParams.get('order');
+        document.getElementById('order').options[order].selected = true;
     }
 </script>
 </html>

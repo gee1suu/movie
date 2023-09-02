@@ -40,4 +40,12 @@ public class MovieService {
         }
         return futureMovieDtos;
     }
+
+    public List<Movie> loadCurrentMoviesOrderByScore() {
+        return movieRepository.loadCurrentMoviesOrderByScore();
+    }
+
+    public List<Movie> loadCurrentMoviesOrderByBooking() {
+        return movieRepository.loadCurrentMoviesOrderByBooking();
+    }
 }
