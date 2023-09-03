@@ -17,6 +17,7 @@ public class MovieRepository {
         Date now = new Date();
         return em.createQuery(
                         "select m from Movie m where m.openDate < :now" +
+                                " and m.endDate > :now" +
                                 " order by m.bookingRate desc ",
                         Movie.class)
                 .setParameter("now", now)
@@ -45,6 +46,7 @@ public class MovieRepository {
         Date now = new Date();
         return em.createQuery(
                         "select m from Movie m where m.openDate < :now" +
+                                " and m.endDate > :now" +
                                 " order by m.avgGrade desc ",
                         Movie.class)
                 .setParameter("now", now)
@@ -55,6 +57,7 @@ public class MovieRepository {
         Date now = new Date();
         return em.createQuery(
                         "select m from Movie m where m.openDate < :now" +
+                                " and m.endDate > :now" +
                                 " order by m.bookingRate desc ",
                         Movie.class)
                 .setParameter("now", now)

@@ -17,4 +17,8 @@ public class Cinema {
     @ManyToOne
     @JoinColumn(name="total_seats", referencedColumnName = "code_id")
     private Code totalSeats; // 총좌석수
+
+    @ManyToOne
+    @JoinColumn(name="region_id", referencedColumnName = "code_id")
+    private Code regionId; // 지역
 }

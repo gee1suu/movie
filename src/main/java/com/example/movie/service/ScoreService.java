@@ -42,7 +42,7 @@ public class ScoreService {
         getAverageScore(score.getMovieId().getId());
     }
 
-    public void getAverageScore(Long movieId) {
+    private void getAverageScore(Long movieId) {
         Movie findMovie = movieRepository.findMovieById(movieId).get(0);
         List<Score> scoreList = scoreRepository.findScoreByMovieId(movieId);
         float avgGrade = 0.0f;

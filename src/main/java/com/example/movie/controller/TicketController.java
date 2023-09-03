@@ -3,15 +3,20 @@ package com.example.movie.controller;
 import com.example.movie.domain.Movie;
 import com.example.movie.domain.Score;
 import com.example.movie.domain.Ticket;
+import com.example.movie.dto.MessageDto;
 import com.example.movie.dto.ScoreForm;
 import com.example.movie.service.MovieService;
 import com.example.movie.service.ScoreService;
 import com.example.movie.service.TicketService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -40,14 +45,24 @@ public class TicketController {
 
     @RequestMapping("/select-schedule")
     public String schedule(Model model) {
-        List<Movie> movieList = movieService.loadMovies();
-        model.addAttribute("movieList", movieList);
-        return "/ticket/selectSchedule";
+        if(isAuthenticated()) {
+            List<Movie> movieList = movieService.loadMovies();
+            model.addAttribute("movieList", movieList);
+            return "/ticket/selectSchedule";
+        } else {
+            MessageDto message = new MessageDto("로그인이 필요한 기능입니다.", "/", RequestMethod.GET, null);
+            return showMessageAndRedirect(message, model);
+        }
     }
 
     @RequestMapping("/select-seat")
-    public String seat() {
-        return "/ticket/selectSeat";
+    public String seat(Model model) {
+        if(isAuthenticated()) {
+            return "/ticket/selectSeat";
+        } else {
+            MessageDto message = new MessageDto("로그인이 필요한 기능입니다.", "/", RequestMethod.GET, null);
+            return showMessageAndRedirect(message, model);
+        }
     }
 
     @RequestMapping("/select-payment")
@@ -64,5 +79,18 @@ public class TicketController {
     public String cancelTicket(Long id) {
         ticketService.deleteTicket(id);
         return "redirect:/myticket";
+    }
+
+    private String showMessageAndRedirect(final MessageDto params, Model model) {
+        model.addAttribute("params", params);
+        return "/messageRedirect";
+    }
+
+    private boolean isAuthenticated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            return false;
+        }
+        return authentication.isAuthenticated();
     }
 }
