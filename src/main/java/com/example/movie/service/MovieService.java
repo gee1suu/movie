@@ -22,6 +22,10 @@ public class MovieService {
         return movieList.subList(start, end);
     }
 
+    public List<Movie> loadMovies() {
+        return movieRepository.loadMovieList();
+    }
+
     public Movie findMovieById(Long id) {
         return movieRepository.findMovieById(id).get(0);
     }

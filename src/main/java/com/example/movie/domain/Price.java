@@ -19,5 +19,8 @@ public class Price {
     @JoinColumn(name = "audience", referencedColumnName = "code_id")
     private Code audience; // 가격
 
+    @Column(name = "price_name")
+    private String name;
+
     private int price; // 가격
 }

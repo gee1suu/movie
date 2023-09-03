@@ -35,28 +35,36 @@
             <h5><b>영화 선택</b></h5>
             <hr>
             <div class="list-group mt-3">
-                <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
-                    오펜하이머
+                <a class="list-group-item list-group-item-action" th:each="movie : ${movieList}"
+                   th:id="|movie${movie.getId()}|" th:onclick="clickMovie(this, [[${movie.getId()}]])">
+                    <span th:text="${movie.getName()}"></span>
                 </a>
-                <a href="#" class="list-group-item list-group-item-action">오펜</a>
-                <a href="#" class="list-group-item list-group-item-action">하이</a>
-                <a href="#" class="list-group-item list-group-item-action">머</a>
+                <input type="hidden" id="movieId" name="movieId" value="">
             </div>
         </div>
         <div class="col-4 p-3 border">
             <h5><b>상영관 선택</b></h5>
             <hr>
             <div class="list-group mt-3">
-                <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
-                    강남
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">논현</a>
-                <a href="#" class="list-group-item list-group-item-action">역삼</a>
+                <a class="list-group-item list-group-item-action" onclick="clickCinema(this, 'G')">강남</a>
+                <a class="list-group-item list-group-item-action" onclick="clickCinema(this, 'N')">논현</a>
+                <a class="list-group-item list-group-item-action" onclick="clickCinema(this, 'Y')">역삼</a>
+                <input type="hidden" id="cinemaId" name="cinemaId" value="">
             </div>
         </div>
         <div class="col-4 p-3 border">
             <h5><b>시간표 선택</b></h5>
             <hr>
+            <div class="dropdown mb-3">
+                <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
+                    날짜 선택
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">8월 31일 (목)</a></li>
+                    <li><a class="dropdown-item" href="#">9월 1일 (금)</a></li>
+                    <li><a class="dropdown-item" href="#">9월 2일 (토)</a></li>
+                </ul>
+            </div>
             <ul class="schedule">
                 <li>2D | 2관 | 140석
                     <ul class="list-group list-group-horizontal text-center">
@@ -102,4 +110,46 @@
     </div>
 </div>
 </body>
+<script th:inline="javascript">
+    function clickMovie(m, id) {
+        let movies = m.parentNode.childNodes;
+        for(let i in movies) {
+            if(movies[i].nodeType === 1) {
+                movies[i].classList.remove('active');
+            }
+        }
+        m.className += ' active';
+        document.getElementById('movieId').value = id;
+        findSchedule();
+    }
+
+    window.onload = () => {
+        const urlParams = new URL(location.href).searchParams;
+        let movieId = urlParams.get('movieId');
+        let movie = document.getElementById('movie' + movieId);
+        clickMovie(movie, movieId);
+    }
+
+    function clickCinema(c, id) {
+        let cinemas = c.parentNode.childNodes;
+        for(let i in cinemas) {
+            if(cinemas[i].nodeType === 1) {
+                cinemas[i].classList.remove('active');
+            }
+        }
+        c.className += ' active';
+        document.getElementById('cinemaId').value = id;
+        findSchedule();
+    }
+
+    function findSchedule() {
+        let movieId = document.getElementById('movieId').value;
+        let cinemaId = document.getElementById('cinemaId').value;
+        if(movieId === '' || cinemaId === '') {
+            console.log('선택 안 된 항목 있음');
+        } else {
+            console.log('영화, 상영관 선택');
+        }
+    }
+</script>
 </html>

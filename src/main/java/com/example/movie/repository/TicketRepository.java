@@ -12,11 +12,24 @@ public class TicketRepository {
     @PersistenceContext
     EntityManager em;
 
-    public List<Ticket> findTicketById(Long id) {
+    public List<Ticket> findTicketByMemberId(Long id) {
         return em.createQuery(
-                        "select t from Ticket t where t.memberId.id = :id ",
+                        "select t from Ticket t where t.memberId.id = :id " +
+                                "order by t.ticketDate ",
                         Ticket.class)
                 .setParameter("id", id)
                 .getResultList();
+    }
+
+    public List<Ticket> findTicketById(Long id) {
+        return em.createQuery(
+                        "select t from Ticket t where t.id = :id ",
+                        Ticket.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
+
+    public void delete(Ticket ticket) {
+        em.remove(ticket);
     }
 }

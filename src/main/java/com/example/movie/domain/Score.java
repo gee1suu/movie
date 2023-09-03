@@ -1,5 +1,6 @@
 package com.example.movie.domain;
 
+import com.example.movie.dto.ScoreForm;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,4 +29,14 @@ public class Score {
     private Member memberId; // 고객코드
 
     private float score; // 평점
+
+    public static Score createScore(ScoreForm form) {
+        Score score = new Score();
+        score.setScore(form.getScore());
+        score.setMemberId(form.getMemberId());
+        score.setMovieId(form.getMovieId());
+
+        return score;
+    }
+
 }

@@ -74,7 +74,7 @@
                                 별점: <span th:text="${movie.getAvgGrade()}"></span>
                             </p>
                             <div class="btn-wrapper">
-                                <a href="/select-schedule" class="btn btn-primary">예매하기</a>
+                                <a th:href="@{/select-schedule(movieId=${movie.getId()})}" class="btn btn-primary">예매하기</a>
                             </div>
                         </div>
                     </div>

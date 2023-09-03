@@ -1,6 +1,8 @@
 package com.example.movie.controller;
 
 import com.example.movie.domain.Score;
+import com.example.movie.dto.ScoreForm;
+import com.example.movie.service.MemberService;
 import com.example.movie.service.ScoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScoreController {
     private final ScoreService scoreService;
+    private final MemberService memberService;
 
     @RequestMapping("/myscore")
     public String myscore(Principal principal, Model model) {
@@ -32,6 +35,14 @@ public class ScoreController {
     @PostMapping("/deleteScore")
     public String deleteScore(Long id) {
         scoreService.deleteScore(id);
+        return "redirect:/myscore";
+    }
+
+    @PostMapping("/addScore")
+    public String addScore(ScoreForm scoreForm, Principal principal) {
+        scoreForm.setMemberId(memberService.findIdByEmail(principal.getName()));
+        Score score = Score.createScore(scoreForm);
+        scoreService.addScore(score);
         return "redirect:/myscore";
     }
 }

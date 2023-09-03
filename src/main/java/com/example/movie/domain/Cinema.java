@@ -15,10 +15,6 @@ public class Cinema {
     private String name; // 이름
 
     @ManyToOne
-    @JoinColumn(name="screen", referencedColumnName = "code_id")
-    private Code screen; // 스크린
-
-    @ManyToOne
     @JoinColumn(name="total_seats", referencedColumnName = "code_id")
     private Code totalSeats; // 총좌석수
 }

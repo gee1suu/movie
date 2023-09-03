@@ -12,6 +12,10 @@ public class ScoreRepository {
     @PersistenceContext
     EntityManager em;
 
+    public void save(Score score) {
+        em.persist(score);
+    }
+
     public List<Score> findScoreByMemberId(Long id) {
         return em.createQuery(
                         "select s from Score s where s.memberId.id = :id ",

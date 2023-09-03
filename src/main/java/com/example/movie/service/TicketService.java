@@ -19,6 +19,11 @@ public class TicketService {
 
     public List<Ticket> loadMyticket(String email) {
         Member findMember = memberRepository.findByEmail(email).get(0);
-        return ticketRepository.findTicketById(findMember.getId());
+        return ticketRepository.findTicketByMemberId(findMember.getId());
+    }
+
+    public void deleteTicket(Long id) {
+        Ticket findTicket = ticketRepository.findTicketById(id).get(0);
+        ticketRepository.delete(findTicket);
     }
 }

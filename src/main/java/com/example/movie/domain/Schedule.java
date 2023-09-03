@@ -20,6 +20,10 @@ public class Schedule {
     @JoinColumn(name = "cinema_id", referencedColumnName = "cinema_id")
     private Cinema cinemaId; // 상영관
 
+    @ManyToOne
+    @JoinColumn(name="screen", referencedColumnName = "code_id")
+    private Code screen; // 스크린
+
     private Timestamp openTime; // 시작시간
     private Timestamp endTime; // 종료시간
 }

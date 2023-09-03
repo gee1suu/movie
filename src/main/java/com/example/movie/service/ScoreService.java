@@ -37,19 +37,23 @@ public class ScoreService {
         getAverageScore(findScore.getMovieId().getId());
     }
 
-    public void saveScore(float score, Long id) {
-        // getAverageScore();
+    public void addScore(Score score) {
+        scoreRepository.save(score);
+        getAverageScore(score.getMovieId().getId());
     }
 
     public void getAverageScore(Long movieId) {
         Movie findMovie = movieRepository.findMovieById(movieId).get(0);
         List<Score> scoreList = scoreRepository.findScoreByMovieId(movieId);
         float avgGrade = 0.0f;
+        if(scoreList.isEmpty()) {
+            findMovie.setAvgGrade(avgGrade);
+        } else {
+            for(Score s : scoreList) {
+                avgGrade += s.getScore();
+            }
 
-        for(Score s : scoreList) {
-            avgGrade += s.getScore();
+            findMovie.setAvgGrade(avgGrade / scoreList.size());
         }
-
-        findMovie.setAvgGrade(avgGrade / scoreList.size());
     }
 }
