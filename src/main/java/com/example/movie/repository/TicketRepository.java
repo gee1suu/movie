@@ -52,4 +52,13 @@ public class TicketRepository {
                 .getResultList()
                 .size();
     }
+
+    public int findTicketByScheduleId(Long scheduleId) {
+        return em.createQuery(
+                        "select t from Ticket t where t.scheduleId.id = :id ",
+                        Ticket.class)
+                .setParameter("id", scheduleId)
+                .getResultList()
+                .size();
+    }
 }

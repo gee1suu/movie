@@ -18,10 +18,6 @@
             margin-right: 10px;
             width: 4rem;
         }
-        a, .nav-link {
-            text-decoration: none;
-            color: black;
-        }
         .item span {
             color: steelblue;
         }
@@ -65,21 +61,29 @@
                 <span> | </span>
                 <span th:text="|${movie.getRunningTime()}분|"></span>
             </div>
-            <div class="mb-3">
-                <div class="mb-1">
-                    <span>▶ </span>
-                    <span>2D / </span>
-                    <span>4관 / </span>
-                    <span>총 124석</span>
+            <div class="mb-3" th:each="cinema : ${cinemaList}">
+                <div th:if="${cinema.getMovieId() == movie.getId()}">
+                    <div class="mb-1">
+                        <span>▶ </span>
+                        <span th:text="|${cinema.getScreen().getName()} / |">2D / </span>
+                        <span th:text="|${cinema.getName()} / |">4관 / </span>
+                        <span th:text="|총 ${cinema.getTotalSeats().getName()}석|">총 124석</span>
+                    </div>
+                    <ul class="list-group list-group-horizontal">
+                        <div th:each="schedule : ${scheduleList}">
+                            <li class="list-group item" th:if="${schedule.getCinemaId().getName() == cinema.getName()}">
+                                <form role="form" action="/select-seat">
+                                    <label for="submit" style="cursor: pointer">
+                                        <em th:text="${#strings.substring(schedule.getOpenTime(), 11, 16)}">23:30</em>
+                                        <span th:text="|${schedule.getRemainSeats()}석|">116석</span>
+                                        <input type="hidden" name="id" th:value="${schedule.getId()}">
+                                        <input type="submit" id="submit" style="display: none;">
+                                    </label>
+                                </form>
+                            </li>
+                        </div>
+                    </ul>
                 </div>
-                <ul class="list-group list-group-horizontal">
-                    <li class="list-group item">
-                        <a href="/select-seat">
-                            <em>23:30</em>
-                            <span>116석</span>
-                        </a>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>

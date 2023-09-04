@@ -3,6 +3,7 @@ package com.example.movie.repository;
 import com.example.movie.domain.Cinema;
 import com.example.movie.domain.Code;
 import com.example.movie.domain.Movie;
+import com.example.movie.domain.Schedule;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -33,11 +34,21 @@ public class CinemaRepository {
         Date now = new Date();
         return em.createQuery(
                         "select s.movieId from Schedule s where s.cinemaId.regionId = :id " +
-                                "and s.openTime > :now",
+                                "and s.openTime > :now ",
                         Movie.class)
                 .setParameter("id", cinema)
                 .setParameter("now", now)
                 .getResultList();
     }
 
+    public List<Schedule> findScheduleByRegion(Code cinema) {
+        Date now = new Date();
+        return em.createQuery(
+                        "select s from Schedule s where s.cinemaId.regionId = :id " +
+                                "and s.openTime > :now order by s.openTime, s.cinemaId.id ",
+                        Schedule.class)
+                .setParameter("id", cinema)
+                .setParameter("now", now)
+                .getResultList();
+    }
 }

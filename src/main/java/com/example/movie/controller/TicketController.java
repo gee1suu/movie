@@ -56,8 +56,9 @@ public class TicketController {
     }
 
     @RequestMapping("/select-seat")
-    public String seat(Model model) {
+    public String seat(Long id, Model model) {
         if(isAuthenticated()) {
+            System.out.println("스케줄 아이디: " + id);
             return "/ticket/selectSeat";
         } else {
             MessageDto message = new MessageDto("로그인이 필요한 기능입니다.", "/", RequestMethod.GET, null);
