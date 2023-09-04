@@ -72,14 +72,11 @@
                     <ul class="list-group list-group-horizontal">
                         <div th:each="schedule : ${scheduleList}">
                             <li class="list-group item" th:if="${schedule.getCinemaId().getName() == cinema.getName()}">
-                                <form role="form" action="/select-seat">
-                                    <label for="submit" style="cursor: pointer">
-                                        <em th:text="${#strings.substring(schedule.getOpenTime(), 11, 16)}">23:30</em>
-                                        <span th:text="|${schedule.getRemainSeats()}석|">116석</span>
-                                        <input type="hidden" name="id" th:value="${schedule.getId()}">
-                                        <input type="submit" id="submit" style="display: none;">
-                                    </label>
-                                </form>
+                                <a th:href="@{/select-seat(id=${schedule.getId()})}"
+                                   style="text-decoration: none; color: black">
+                                    <em th:text="${#strings.substring(schedule.getOpenTime(), 11, 16)}">23:30</em>
+                                    <span th:text="|${schedule.getRemainSeats()}석|">116석</span>
+                                </a>
                             </li>
                         </div>
                     </ul>

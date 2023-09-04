@@ -1,8 +1,6 @@
 package com.example.movie.service;
 
-import com.example.movie.domain.Member;
-import com.example.movie.domain.Movie;
-import com.example.movie.domain.Ticket;
+import com.example.movie.domain.*;
 import com.example.movie.repository.MemberRepository;
 import com.example.movie.repository.MovieRepository;
 import com.example.movie.repository.TicketRepository;
@@ -31,8 +29,9 @@ public class TicketService {
         getBookingRate(findTicket.getScheduleId().getMovieId().getId());
     }
 
-    public void addTicket() {
-        // getBookingRate();
+    public void addTicket(Ticket ticket) {
+        ticketRepository.save(ticket);
+        getBookingRate(ticketRepository.findMovieByScheduleId(ticket.getScheduleId().getId()).get(0).getId());
     }
 
     private void getBookingRate(Long movieId) {
@@ -48,5 +47,37 @@ public class TicketService {
         }
 
         findMovie.setBookingRate(bookingRate);
+    }
+
+    public List<Ticket> findTicketByScheduleId(Long id) {
+        return ticketRepository.findTicketByScheduleId(id);
+    }
+
+    public int findTotalSeatsByScheduleId(Long id) {
+        return Integer.parseInt(ticketRepository.findTotalSeatsByScheduleId(id).get(0));
+    }
+
+    public String findScreenByScheduleId(Long scheduleId) {
+        return ticketRepository.findScreenByScheduleId(scheduleId).get(0);
+    }
+
+    public List<Price> findPriceByScreen(String screenId) {
+        return ticketRepository.findPriceByScreen(screenId);
+    }
+
+    public Price findPriceByScheduleIdAndAudience(Long scheduleId, String audience) {
+        System.out.println("screen: " + ticketRepository.findScreenByScheduleId(scheduleId).get(0));
+        System.out.println("audience: " + audience);
+        return ticketRepository.findPriceByScreenAndAudience
+                (ticketRepository.findScreenByScheduleId(scheduleId).get(0), audience)
+                .get(0);
+    }
+
+    public Code findCodeByCodeId(String paymentMethod) {
+        return ticketRepository.findCodeByCodeId(paymentMethod).get(0);
+    }
+
+    public Schedule findScheduleByScheduleId(Long scheduleId) {
+        return ticketRepository.findScheduleByScheduleId(scheduleId).get(0);
     }
 }

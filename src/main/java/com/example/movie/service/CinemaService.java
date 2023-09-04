@@ -79,7 +79,7 @@ public class CinemaService {
             dto.setOpenTime(s.getOpenTime());
             dto.setEndTime(s.getEndTime());
             dto.setMovieId(s.getMovieId());
-            dto.setRemainSeats(Integer.parseInt(s.getCinemaId().getTotalSeats().getName()) - ticketRepository.findTicketByScheduleId(s.getId()));
+            dto.setRemainSeats(Integer.parseInt(s.getCinemaId().getTotalSeats().getName()) - ticketRepository.findTicketByScheduleId(s.getId()).size());
             scheduleDtos.add(dto);
         }
         return scheduleDtos;

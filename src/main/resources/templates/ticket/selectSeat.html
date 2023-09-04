@@ -15,95 +15,137 @@
             border-bottom: hidden;
             border-right: hidden;
         }
+        .selected {
+            color: orange;
+            font-weight: bold;
+        }
+        .booked {
+            color: red;
+        }
     </style>
 </head>
 <th:block th:replace="fragments/header :: header"></th:block>
 <body>
 <div class="container-fluid mt-3">
     <h3>좌석 선택</h3>
+    <form role="form" action="/select-payment" method="post" id="form">
     <div class="d-flex">
         <div class="form-floating p-1">
-            <select class="form-select" id="floatingSelect1" aria-label="Floating label select example">
+            <select class="form-select" id="adu" name="adu" aria-label="Floating label select example">
                 <option selected value="0">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
             </select>
-            <label for="floatingSelect1">성인</label>
+            <label for="adu">성인</label>
         </div>
         <div class="form-floating p-1">
-            <select class="form-select" id="floatingSelect2" aria-label="Floating label select example">
+            <select class="form-select" id="ado" name="ado" aria-label="Floating label select example">
                 <option selected value="0">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
             </select>
-            <label for="floatingSelect2">청소년</label>
+            <label for="ado">청소년</label>
         </div>
         <div class="form-floating p-1">
-            <select class="form-select" id="floatingSelect3" aria-label="Floating label select example">
+            <select class="form-select" id="sen" name="sen" aria-label="Floating label select example">
                 <option selected value="0">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
             </select>
-            <label for="floatingSelect3">경로</label>
+            <label for="sen">시니어</label>
         </div>
         <div class="form-floating p-1">
-            <select class="form-select" id="floatingSelect4" aria-label="Floating label select example">
+            <select class="form-select" id="dis" name="dis" aria-label="Floating label select example">
                 <option selected value="0">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
             </select>
-            <label for="floatingSelect4">우대</label>
+            <label for="dis">장애인</label>
         </div>
     </div>
     <table class="table table-bordered mt-3" style="text-align: center">
         <tr>
             <th></th>
-            <th colspan="9" style="background-color: black; color: white">SCREEN</th>
+            <th colspan="10" style="background-color: black; color: white">SCREEN</th>
             <td></td>
         </tr>
-        <tr>
-            <th style="width: 30px">A</th>
-            <td style="width: 30px">
-                <label for="A1" style="cursor: pointer">1</label>
-                <input id="A1" type="checkbox" style="display: none">
+        <tr th:each="num1 : ${#numbers.sequence(1, totalSeats / 10)}">
+            <th style="width: 30px" th:text="${#conversions.convert(num1 + 64, 'java.lang.Character')}">A</th>
+            <td style="width: 30px" th:each="num2 : ${#numbers.sequence(1, 10)}">
+                <label th:for="|${num1}_${num2}|" style="cursor: pointer" th:text="${num2}"></label>
+                <input th:id="|${num1}_${num2}|" th:value="|${num1}_${num2}|" name="seat" type="checkbox" onchange="changeCheckbox(this)" style="display:none;">
             </td>
-            <td style="width: 30px">
-                <label for="A2" style="cursor: pointer">2</label>
-                <input id="A2" type="checkbox" style="display: none">
-            </td>
-            <td style="width: 30px"></td>
-            <td style="width: 30px">
-                <label for="A3" style="cursor: pointer">3</label>
-                <input id="A3" type="checkbox" style="display: none">
-            </td>
-            <td style="width: 30px">4</td>
-            <td style="width: 30px">5</td>
-            <td style="width: 30px"></td>
-            <td style="width: 30px">6</td>
-            <td style="width: 30px">7</td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>B</th>
-            <td>1</td>
-            <td>2</td>
-            <td></td>
-            <td>3</td>
-            <td>4</td>
-            <td style="color: red">X</td>
-            <td></td>
-            <td>6</td>
-            <td>7</td>
             <td></td>
         </tr>
     </table>
     <div>
-        <a class="btn btn-primary" href="/select-payment">다음</a>
+        <input type="hidden" name="scheduleId" id="scheduleId" value="">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <button type="button" class="btn btn-primary" onclick="clickButton()">다음</button>
     </div>
+    </form>
 </div>
 </body>
+<script th:inline="javascript">
+    window.onload = () => {
+        const urlParams = new URL(location.href).searchParams;
+        document.getElementById('scheduleId').value = urlParams.get('id');
+
+        let tickets = [[${ticketList}]];
+        let num = tickets.length;
+        for(let i = 0; i < num; i++) {
+            let seatId = tickets.at(i)['seatRow'] + '_' + tickets.at(i)['seatCol'];
+            let cb = document.getElementById(seatId);
+            cb.disabled = true;
+            let lb = cb.parentNode.childNodes.item(1);
+            lb.className += ' booked';
+            lb.innerHTML = 'X';
+        }
+    }
+
+    function changeCheckbox(cb) {
+        let [ticketNum, checkedNum] = getNums();
+
+        if(ticketNum >= checkedNum) {
+            let lb = cb.parentNode.childNodes.item(1);
+            if(cb.checked) {
+                lb.className += ' selected';
+            } else {
+                lb.classList.remove('selected');
+            }
+        } else {
+            cb.checked = false;
+            alert('선택한 좌석수가 티켓수보다 많습니다.');
+        }
+    }
+
+    function clickButton() {
+        let [ticketNum, checkedNum] = getNums();
+
+        if(ticketNum > checkedNum) {
+            alert('선택한 좌석수가 티켓수보다 적습니다.');
+        } else {
+            let form = document.getElementById('form');
+            form.submit();
+        }
+    }
+
+    function getNums() {
+        let adu = document.getElementById('adu').value;
+        let ado = document.getElementById('ado').value;
+        let sen = document.getElementById('sen').value;
+        let dis = document.getElementById('dis').value;
+        let ticketNum = parseInt(adu) + parseInt(ado) + parseInt(sen) + parseInt(dis);
+
+        const query = 'input[name="seat"]:checked';
+        const selectedElements = document.querySelectorAll(query);
+        let checkedNum = selectedElements.length;
+
+        return [ticketNum, checkedNum];
+    }
+</script>
 </html>

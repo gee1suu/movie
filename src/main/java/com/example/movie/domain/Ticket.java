@@ -1,6 +1,7 @@
 package com.example.movie.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -11,6 +12,7 @@ import java.sql.Timestamp;
         sequenceName = "seq_ticket_id",
         allocationSize = 1)
 @Getter
+@Setter
 public class Ticket {
     @Id @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
